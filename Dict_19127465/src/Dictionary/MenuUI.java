@@ -11,6 +11,7 @@ import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,7 +29,7 @@ public class MenuUI extends javax.swing.JFrame {
         initComponents();
     }
     
-    public boolean check(String checkWord, ArrayList<String> list){
+    public boolean checkAvailability(String checkWord, ArrayList<String> list){
         for(int i=0; i<list.size(); i++){
             if(checkWord.equals(list.get(i))) {
                 list.add(0, checkWord);
@@ -37,6 +38,11 @@ public class MenuUI extends javax.swing.JFrame {
             }
         }
         return false;
+    }
+    
+    public static void messageBox(String infoMessage, String titleBar)
+    {
+        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -75,6 +81,11 @@ public class MenuUI extends javax.swing.JFrame {
         });
 
         searchByDefiButton.setText("Definition");
+        searchByDefiButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchByDefiButtonActionPerformed(evt);
+            }
+        });
 
         historyButton.setText("Hiển Thị History");
 
@@ -216,16 +227,18 @@ public class MenuUI extends javax.swing.JFrame {
     private void searchBySlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBySlangActionPerformed
         // TODO add your handling code here:
         String checkWord = searchItem.getText();
+        
         displayBoard.setText("");
-        if(datalist.size() != 0){
-            if(!check(checkWord, datalist)){
+        
+        if(datalist.size() == 0){
+            datalist.add(0, checkWord);
+        }
+        else{
+            if(!checkAvailability(checkWord, datalist)){
                 datalist.add(0, checkWord);
             }
         }
-        else{
-            datalist.add(0, checkWord);
-        }
-        System.out.println(datalist);
+
         double calculateStartTime = System.currentTimeMillis();
             try {
                 Scanner scanner = new Scanner(datafile);
@@ -233,22 +246,73 @@ public class MenuUI extends javax.swing.JFrame {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     String[] liner = line.split("`");
-                    String slang = liner[0];
-                    if(slang.toLowerCase().contains(checkWord.toLowerCase())){
+                    
+                    
+                    //Lấy phần slang
+                    String target = liner[0];
+                    if(target.toLowerCase().contains(checkWord.toLowerCase())){
                         displayBoard.append(line + "\n");
                     }
                 }
             } 
             catch(Exception ex) {
+                System.out.println(ex);
             }
 
 
             double calculateEndTime   = System.currentTimeMillis();
-            double calculateTotalTime = calculateEndTime - calculateStartTime;
-
-            displayBoard.append("Run time: " + (float)calculateTotalTime / 1000 +" second");
-            searchBySlang.setText("");
+            double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
+            
+            String timeResult = String.valueOf(calculateTotalTime);
+            MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
+            
+            searchItem.setText("");
     }//GEN-LAST:event_searchBySlangActionPerformed
+
+    private void searchByDefiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByDefiButtonActionPerformed
+        // TODO add your handling code here:
+        String checkWord = searchItem.getText();
+        
+        displayBoard.setText("");
+        
+        if(datalist.size() == 0){
+            datalist.add(0, checkWord);
+        }
+        else{
+            if(!checkAvailability(checkWord, datalist)){
+                datalist.add(0, checkWord);
+            }
+        }
+        
+        
+        double calculateStartTime = System.currentTimeMillis();
+            try {
+                Scanner scanner = new Scanner(datafile);
+
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    String[] liner = line.split("`");
+                    
+                    //Lấy phần định nghĩa
+                    String target = liner[1];
+                    if(target.toLowerCase().contains(checkWord.toLowerCase())){
+                        displayBoard.append(line + "\n");
+                    }
+                }
+            } 
+            catch(Exception ex) {
+                System.out.println(ex);
+            }
+
+
+            double calculateEndTime   = System.currentTimeMillis();
+            double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
+            
+            String timeResult = String.valueOf(calculateTotalTime);
+            MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
+
+            searchItem.setText("");
+    }//GEN-LAST:event_searchByDefiButtonActionPerformed
 
     /**
      * @param args the command line arguments
