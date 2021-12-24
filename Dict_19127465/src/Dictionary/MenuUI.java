@@ -18,9 +18,8 @@ import javax.swing.JOptionPane;
  * @author Long Phan
  */
 public class MenuUI extends javax.swing.JFrame {
-    ArrayList<String> datalist = new ArrayList<>();
+    ArrayList<String> keylogger = new ArrayList<>();
     File datafile = new File("resources/slang.txt");
-    String s;
     
     /**
      * Creates new form MenuUI
@@ -29,10 +28,10 @@ public class MenuUI extends javax.swing.JFrame {
         initComponents();
     }
     
-    public boolean checkAvailability(String checkWord, ArrayList<String> list){
+    public boolean checkAvailability(String slangWord, ArrayList<String> list){
         for(int i=0; i<list.size(); i++){
-            if(checkWord.equals(list.get(i))) {
-                list.add(0, checkWord);
+            if(slangWord.equals(list.get(i))) {
+                list.add(0, slangWord);
                 list.remove(i+1);
                 return true;
             }
@@ -55,13 +54,8 @@ public class MenuUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        searchItem = new javax.swing.JTextField();
-        searchBySlang = new javax.swing.JButton();
-        searchByDefiButton = new javax.swing.JButton();
         historyButton = new javax.swing.JButton();
-        addButton = new javax.swing.JButton();
-        editButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
+        processButton = new javax.swing.JButton();
         resetButton = new javax.swing.JButton();
         randomButton = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
@@ -70,30 +64,21 @@ public class MenuUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         displayBoard = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
+        searchItem = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        searchBySlang = new javax.swing.JButton();
+        searchByDefiButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        searchBySlang.setText("Slang");
-        searchBySlang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBySlangActionPerformed(evt);
-            }
-        });
-
-        searchByDefiButton.setText("Definition");
-        searchByDefiButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchByDefiButtonActionPerformed(evt);
-            }
-        });
-
         historyButton.setText("Hiển Thị History");
 
-        addButton.setText("Add");
-
-        editButton.setText("Edit");
-
-        deleteButton.setText("Delete");
+        processButton.setText("Add\\Edit\\Delete");
+        processButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                processButtonActionPerformed(evt);
+            }
+        });
 
         resetButton.setText("Reset");
         resetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -121,49 +106,50 @@ public class MenuUI extends javax.swing.JFrame {
 
         jLabel2.setText("Chương Trình Từ Điển");
 
+        jLabel3.setText("Enter Slang Or Definition");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(205, 205, 205)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(15, Short.MAX_VALUE)
+                        .addGap(22, 22, 22)
+                        .addComponent(searchItem))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(236, 236, 236)
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(101, 101, 101)
+                .addComponent(jButton9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton10)
+                .addGap(79, 79, 79))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(105, 105, 105)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                                .addGap(105, 105, 105))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(processButton, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(deleteButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(resetButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(randomButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(historyButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(editButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(searchItem, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addComponent(searchBySlang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton9)
-                        .addGap(112, 112, 112)
-                        .addComponent(jButton10)
-                        .addGap(18, 18, 18)
-                        .addComponent(searchByDefiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(randomButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(5, 5, 5))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(275, 275, 275))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -172,12 +158,8 @@ public class MenuUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(processButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(resetButton)
                         .addGap(18, 18, 18)
@@ -190,27 +172,50 @@ public class MenuUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchByDefiButton)
                     .addComponent(jButton10)
                     .addComponent(jButton9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchBySlang)
-                    .addComponent(searchItem, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11))
+                .addGap(5, 5, 5)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(searchItem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        searchBySlang.setText("Search By Slang");
+        searchBySlang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBySlangActionPerformed(evt);
+            }
+        });
+
+        searchByDefiButton.setText("Search By Definition");
+        searchByDefiButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchByDefiButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(searchBySlang, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114)
+                .addComponent(searchByDefiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(103, 103, 103))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchBySlang)
+                    .addComponent(searchByDefiButton))
+                .addGap(40, 40, 40))
         );
 
         pack();
@@ -230,12 +235,12 @@ public class MenuUI extends javax.swing.JFrame {
         
         displayBoard.setText("");
         
-        if(datalist.size() == 0){
-            datalist.add(0, checkWord);
+        if(keylogger.size() == 0){
+            keylogger.add(0, checkWord);
         }
         else{
-            if(!checkAvailability(checkWord, datalist)){
-                datalist.add(0, checkWord);
+            if(!checkAvailability(checkWord, keylogger)){
+                keylogger.add(0, checkWord);
             }
         }
 
@@ -245,11 +250,10 @@ public class MenuUI extends javax.swing.JFrame {
 
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    String[] liner = line.split("`");
-                    
+                    String[] SlangWordIndex = line.split("`");                  
                     
                     //Lấy phần slang
-                    String target = liner[0];
+                    String target = SlangWordIndex[0];
                     if(target.toLowerCase().contains(checkWord.toLowerCase())){
                         displayBoard.append(line + "\n");
                     }
@@ -275,12 +279,12 @@ public class MenuUI extends javax.swing.JFrame {
         
         displayBoard.setText("");
         
-        if(datalist.size() == 0){
-            datalist.add(0, checkWord);
+        if(keylogger.size() == 0){
+            keylogger.add(0, checkWord);
         }
         else{
-            if(!checkAvailability(checkWord, datalist)){
-                datalist.add(0, checkWord);
+            if(!checkAvailability(checkWord, keylogger)){
+                keylogger.add(0, checkWord);
             }
         }
         
@@ -313,6 +317,12 @@ public class MenuUI extends javax.swing.JFrame {
 
             searchItem.setText("");
     }//GEN-LAST:event_searchByDefiButtonActionPerformed
+
+    private void processButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processButtonActionPerformed
+        // TODO add your handling code here:
+        new dictProcess().setVisible(true);
+        displayBoard.setText("");
+    }//GEN-LAST:event_processButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -350,17 +360,16 @@ public class MenuUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JTextArea displayBoard;
-    private javax.swing.JButton editButton;
     private javax.swing.JButton historyButton;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton processButton;
     private javax.swing.JButton randomButton;
     private javax.swing.JButton resetButton;
     private javax.swing.JButton searchByDefiButton;
