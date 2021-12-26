@@ -4,11 +4,11 @@
  */
 package Dictionary;
 
-import com.sun.tools.javac.Main;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -20,12 +20,14 @@ import javax.swing.JOptionPane;
 public class MenuUI extends javax.swing.JFrame {
     ArrayList<String> keylogger = new ArrayList<>();
     File datafile = new File("resources/slang.txt");
+    String backupData;
     
     /**
      * Creates new form MenuUI
      */
     public MenuUI() {
         initComponents();
+        saveData();
     }
     
     public boolean checkAvailability(String slangWord, ArrayList<String> list){
@@ -42,6 +44,22 @@ public class MenuUI extends javax.swing.JFrame {
     public static void messageBox(String infoMessage, String titleBar)
     {
         JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void saveData(){
+        backupData = "";
+        try {
+            Scanner scanner = new Scanner(datafile);
+            while (scanner.hasNextLine()){
+                String line = scanner.nextLine();
+                if(scanner.hasNextLine()){
+                    backupData += line + "\n";
+                }
+                else backupData += line;
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("Không thể mở file");
+        }
     }
 
     /**
@@ -72,6 +90,11 @@ public class MenuUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         historyButton.setText("Hiển Thị History");
+        historyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                historyButtonActionPerformed(evt);
+            }
+        });
 
         processButton.setText("Add\\Edit\\Delete");
         processButton.addActionListener(new java.awt.event.ActionListener() {
@@ -223,6 +246,17 @@ public class MenuUI extends javax.swing.JFrame {
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         // TODO add your handling code here:
+        displayBoard.setText("");
+        try
+        {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(datafile, false));
+            bw.write(backupData);
+            bw.close();
+            messageBox("Reset Thành Công!!", "Thông Báo");
+        }
+        catch (IOException e){
+            System.out.println("Không thể ghi file");
+        }
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -235,7 +269,7 @@ public class MenuUI extends javax.swing.JFrame {
         
         displayBoard.setText("");
         
-        if(keylogger.size() == 0){
+        if(keylogger.isEmpty()){
             keylogger.add(0, checkWord);
         }
         else{
@@ -253,8 +287,8 @@ public class MenuUI extends javax.swing.JFrame {
                     String[] SlangWordIndex = line.split("`");                  
                     
                     //Lấy phần slang
-                    String target = SlangWordIndex[0];
-                    if(target.toLowerCase().contains(checkWord.toLowerCase())){
+                    String slang = SlangWordIndex[0];
+                    if(slang.toLowerCase().contains(checkWord.toLowerCase())){
                         displayBoard.append(line + "\n");
                     }
                 }
@@ -274,12 +308,11 @@ public class MenuUI extends javax.swing.JFrame {
     }//GEN-LAST:event_searchBySlangActionPerformed
 
     private void searchByDefiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByDefiButtonActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
         String checkWord = searchItem.getText();
-        
         displayBoard.setText("");
         
-        if(keylogger.size() == 0){
+        if(keylogger.isEmpty()){
             keylogger.add(0, checkWord);
         }
         else{
@@ -287,25 +320,24 @@ public class MenuUI extends javax.swing.JFrame {
                 keylogger.add(0, checkWord);
             }
         }
-        
-        
+          
         double calculateStartTime = System.currentTimeMillis();
             try {
                 Scanner scanner = new Scanner(datafile);
 
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    String[] liner = line.split("`");
+                    String[] SlangWordIndex = line.split("`");
                     
                     //Lấy phần định nghĩa
-                    String target = liner[1];
-                    if(target.toLowerCase().contains(checkWord.toLowerCase())){
+                    String slang = SlangWordIndex[1];
+                    if(slang.toLowerCase().contains(checkWord.toLowerCase())){
                         displayBoard.append(line + "\n");
                     }
                 }
             } 
             catch(Exception ex) {
-                System.out.println(ex);
+                System.out.println("Không thể mở file");
             }
 
 
@@ -323,6 +355,16 @@ public class MenuUI extends javax.swing.JFrame {
         new dictProcess().setVisible(true);
         displayBoard.setText("");
     }//GEN-LAST:event_processButtonActionPerformed
+
+    private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
+        // TODO add your handling code here:
+        displayBoard.setText("Keylogger: \n");
+        int index = 0;
+        for (String s : keylogger){
+            index++;
+            displayBoard.append(index + ": " + s + "\n");
+        }
+    }//GEN-LAST:event_historyButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -350,6 +392,8 @@ public class MenuUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MenuUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

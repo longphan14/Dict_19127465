@@ -5,7 +5,6 @@
 package Dictionary;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -321,7 +320,6 @@ public class dictProcess extends javax.swing.JFrame {
                         for (int i = 0; i < fullData.size(); i++) {
                             if (fullData.get(i).equals(line)) {                              
                                 fullData.remove(i);
-                                continue;
                             }
                         }
                         Files.write(Path.of(nameFile), fullData);
@@ -367,7 +365,6 @@ public class dictProcess extends javax.swing.JFrame {
                         for (int i = 0; i < fullData.size(); i++) {
                             if (fullData.get(i).equals(line)) {
                                 fullData.set(i, NewSlang);
-                                continue;
                             }
                         }
                         Files.write(Path.of(nameFile), fullData);

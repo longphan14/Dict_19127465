@@ -149,6 +149,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Hi&#x1ec3;n Th&#x1ecb; History"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="historyButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="processButton">
           <Properties>
