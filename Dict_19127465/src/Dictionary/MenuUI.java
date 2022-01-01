@@ -12,10 +12,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import java.util.Arrays;
 
 /**
  *
@@ -80,8 +82,8 @@ public class MenuUI extends javax.swing.JFrame {
         processButton = new javax.swing.JButton();
         resetButton = new javax.swing.JButton();
         randomButton = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        GuessSlang = new javax.swing.JButton();
+        GuessDefi = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         displayBoard = new javax.swing.JTextArea();
@@ -121,14 +123,19 @@ public class MenuUI extends javax.swing.JFrame {
             }
         });
 
-        jButton9.setText("Guess Find Slang Word");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        GuessSlang.setText("Đoán Tìm Từ Slang");
+        GuessSlang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                GuessSlangActionPerformed(evt);
             }
         });
 
-        jButton10.setText("Guess Find Definition");
+        GuessDefi.setText("Đoán Tìm Định Nghĩa");
+        GuessDefi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuessDefiActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Đố Vui");
 
@@ -138,32 +145,20 @@ public class MenuUI extends javax.swing.JFrame {
 
         jLabel2.setText("Chương Trình Từ Điển");
 
-        jLabel3.setText("Enter Slang Or Definition");
+        jLabel3.setText("Nhập từ Slang Hoặc Định Nghĩa(Definition)");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(searchItem))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(236, 236, 236)
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(22, 22, 22)
+                .addComponent(searchItem)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(101, 101, 101)
-                .addComponent(jButton9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton10)
-                .addGap(79, 79, 79))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(48, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -179,9 +174,17 @@ public class MenuUI extends javax.swing.JFrame {
                                     .addComponent(randomButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(5, 5, 5))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(GuessDefi)
+                        .addGap(61, 61, 61)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(275, 275, 275))))
+                        .addGap(36, 36, 36)
+                        .addComponent(GuessSlang)
+                        .addGap(104, 104, 104))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(172, 172, 172)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -201,26 +204,29 @@ public class MenuUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton10)
-                    .addComponent(jButton9))
-                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(37, 37, 37))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(GuessSlang)
+                            .addComponent(GuessDefi))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchItem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        searchBySlang.setText("Search By Slang");
+        searchBySlang.setText("Tìm theo từ Slang");
         searchBySlang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchBySlangActionPerformed(evt);
             }
         });
 
-        searchByDefiButton.setText("Search By Definition");
+        searchByDefiButton.setText("Tìm theo định nghĩa");
         searchByDefiButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchByDefiButtonActionPerformed(evt);
@@ -268,9 +274,9 @@ public class MenuUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_resetButtonActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void GuessSlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuessSlangActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_GuessSlangActionPerformed
 
     private void searchBySlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBySlangActionPerformed
         // TODO add your handling code here:
@@ -394,6 +400,86 @@ public class MenuUI extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_randomButtonActionPerformed
 
+    private void GuessDefiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuessDefiActionPerformed
+        // TODO add your handling code here:
+        Random num = new Random();
+        File curFile = datafile;
+        try {
+            List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of("resources/slang.txt")));
+            int size = fullData.size();
+            int[] index = new int[4];
+            for(int i = 0; i < 4; i++){
+                index[i] = num.nextInt(size);
+            }
+            
+            String[] resultChoice = new String[4];
+            for(int i = 0; i < 4; i++){
+                resultChoice[i] = fullData.get(index[i]);
+            }
+            
+
+            String[] slangPart = new String[4];
+            String[] defiPart = new String[4];
+            
+            //Tách Slang với Defi thành 2 phần riêng biệt
+            for(int i = 0; i < 4; i++){
+                String[] SlangWordIndex = resultChoice[i].split("`");
+                slangPart[i] = SlangWordIndex[0];
+                defiPart[i] = SlangWordIndex[1];
+            }
+            
+            
+            //Chọn 1 đáp án đúng
+            Random correctChoiceRand = new Random();
+            int correctChoice = correctChoiceRand.nextInt(4);
+            String slangCorrectChoice = slangPart[correctChoice];
+            String defiCorrectChoice = defiPart[correctChoice];
+            
+            //Xáo Trộn Đáp án
+            List<String> defiPartList = Arrays.asList(defiPart);
+            Collections.shuffle(defiPartList);
+            
+            //Nhập Đáp Án vào ô trắc nghiệm
+            String[] options = new String[4];
+            options[0] = defiPartList.get(0);
+            options[1] = defiPartList.get(1);
+            options[2] = defiPartList.get(2);
+            options[3] = defiPartList.get(3);
+            
+            
+            int result = JOptionPane.showOptionDialog(this.getContentPane(),"Định Nghĩa của " + slangCorrectChoice + "?", "Chọn Đáp Án Đúng.",
+                    0,
+                    JOptionPane.INFORMATION_MESSAGE, null, options, null);
+            if(result == 0){
+                  if(options[0].equals(defiCorrectChoice)){
+                      JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Đúng!!!");
+                  }
+                  else JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Sai!!!");
+            }
+            if(result == 1){
+                  if(options[1].equals(defiCorrectChoice)){
+                      JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Đúng!!!");
+                  }
+                  else JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Sai!!!");
+            }
+            if(result == 2){
+                  if(options[2].equals(defiCorrectChoice)){
+                      JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Đúng!!!");
+                  }
+                  else JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Sai!!!");
+            }
+            if(result == 3){
+                  if(options[3].equals(defiCorrectChoice)){
+                      JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Đúng!!!");
+                  }
+                  else JOptionPane.showMessageDialog(rootPane, "Wrong answer!!!");
+            }
+            
+            } catch (Exception e) {
+                System.out.println("Mở file không thành công!!");
+            }
+    }//GEN-LAST:event_GuessDefiActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -432,10 +518,10 @@ public class MenuUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton GuessDefi;
+    private javax.swing.JButton GuessSlang;
     private javax.swing.JTextArea displayBoard;
     private javax.swing.JButton historyButton;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
