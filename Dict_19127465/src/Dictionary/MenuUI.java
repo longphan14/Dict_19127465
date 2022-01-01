@@ -9,7 +9,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -111,6 +115,11 @@ public class MenuUI extends javax.swing.JFrame {
         });
 
         randomButton.setText("Random");
+        randomButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                randomButtonActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Guess Find Slang Word");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -365,6 +374,25 @@ public class MenuUI extends javax.swing.JFrame {
             displayBoard.append(index + ": " + s + "\n");
         }
     }//GEN-LAST:event_historyButtonActionPerformed
+
+    private void randomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomButtonActionPerformed
+        // TODO add your handling code here:
+        Random num = new Random();
+        File curFile = datafile;
+        try {
+            List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of("resources/slang.txt")));
+            int size = fullData.size();
+            int randomNum = num.nextInt(size);
+            
+            String result = fullData.get(randomNum);
+            displayBoard.setText("");
+            
+            displayBoard.append(result + "\n");
+            
+            } catch (Exception e) {
+                System.out.println("Mở file không thành công!!");
+            }
+    }//GEN-LAST:event_randomButtonActionPerformed
 
     /**
      * @param args the command line arguments
