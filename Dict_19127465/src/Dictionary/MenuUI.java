@@ -314,6 +314,7 @@ public class MenuUI extends javax.swing.JFrame {
     //Đoán Slang Word dựa trên Definition
     private void GuessSlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuessSlangActionPerformed
         // TODO add your handling code here:
+
         storeData();
         Random num = new Random();
         try {
@@ -390,11 +391,13 @@ public class MenuUI extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Mở file không thành công!!");
         }
+
     }//GEN-LAST:event_GuessSlangActionPerformed
 
     //Tìm theo Slang Word
     private void searchBySlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBySlangActionPerformed
         // TODO add your handling code here:
+        double calculateStartTime = System.currentTimeMillis();
         storeData();
         String checkWord = searchItem.getText();
         displayBoard.setText("");
@@ -408,7 +411,7 @@ public class MenuUI extends javax.swing.JFrame {
             }
         }
 
-        double calculateStartTime = System.currentTimeMillis();
+
                 for(int i = 0; i < slangPart.length; i++){              
                     
                     //Lấy phần slang kiểm tra
@@ -430,6 +433,7 @@ public class MenuUI extends javax.swing.JFrame {
     //Tìm theo Definition
     private void searchByDefiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByDefiButtonActionPerformed
         // TODO add your handling code here
+        double calculateStartTime = System.currentTimeMillis();
         storeData();
         String checkWord = searchItem.getText();
         displayBoard.setText("");
@@ -443,7 +447,7 @@ public class MenuUI extends javax.swing.JFrame {
             }
         }
 
-        double calculateStartTime = System.currentTimeMillis();
+
                 for(int i = 0; i < defiPart.length; i++){              
                     
                     //Lấy phần slang kiểm tra
@@ -471,31 +475,43 @@ public class MenuUI extends javax.swing.JFrame {
 
     private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
         // TODO add your handling code here:
+        double calculateStartTime = System.currentTimeMillis();
         displayBoard.setText("Keylogger: \n");
         int index = 0;
-        for (String s : keylogger){
+        for (String s : keylogger) {
             index++;
             displayBoard.append(index + ": " + s + "\n");
         }
+        double calculateEndTime = System.currentTimeMillis();
+        double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
+
+        String timeResult = String.valueOf(calculateTotalTime);
+        MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
     }//GEN-LAST:event_historyButtonActionPerformed
 
     //Tạo random slang word
     private void randomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomButtonActionPerformed
         // TODO add your handling code here:
         storeData();
+        double calculateStartTime = System.currentTimeMillis();
         Random num = new Random();
         try {
             int size = storeData.size();
             int randomNum = num.nextInt(size);
-            
+
             String result = storeData.get(randomNum);
             displayBoard.setText("");
-            
+
             displayBoard.append(result + "\n");
-            
-            } catch (Exception e) {
-                System.out.println("Mở file không thành công!!");
-            }
+
+        } catch (Exception e) {
+            System.out.println("Mở file không thành công!!");
+        }
+        double calculateEndTime = System.currentTimeMillis();
+        double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
+
+        String timeResult = String.valueOf(calculateTotalTime);
+        MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
     }//GEN-LAST:event_randomButtonActionPerformed
 
     //Đoán definition dựa theo Slang word
