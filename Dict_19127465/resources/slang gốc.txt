@@ -178,6 +178,7 @@ $_$`Has money
 :(`Unhappy| sad
 :(:)`Pig
 :(|)`Monkey
+:)`Happy
 :*`Kiss
 :-(`Sad
 :-)`Smile
@@ -7654,4 +7655,3 @@ ZZZ`Sleepy| bored| tired
 ~`Denotes Sarcasm| Put At The End Of A Word To Make It Longer
 Æ`Registered Trademark Symbol
 ô`Trademark
-:)`Happy

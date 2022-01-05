@@ -26,14 +26,21 @@ import java.util.Arrays;
 public class MenuUI extends javax.swing.JFrame {
     ArrayList<String> keylogger = new ArrayList<>();
     File datafile = new File("resources/slang.txt");
+    
+    //Lưu lại dữ liệu để backup
     String backupData;
+    
+    //Lưu lại dữ liệu để sử dụng
+    List<String> storeData;
+    String[] slangPart;
+    String[] defiPart;
     
     /**
      * Creates new form MenuUI
      */
     public MenuUI() {
-        initComponents();
         saveData();
+        initComponents();
     }
     
     public boolean checkAvailability(String slangWord, ArrayList<String> list){
@@ -65,6 +72,36 @@ public class MenuUI extends javax.swing.JFrame {
             }
         } catch (FileNotFoundException ex) {
             System.out.println("Không thể mở file");
+        }
+    }
+    
+    public void storeData() {
+        storeData = new ArrayList<String>();
+        try {
+            Scanner scanner = new Scanner(datafile);
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                storeData.add(line);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            int index = 0;
+            slangPart = new String[storeData.size()];
+            defiPart = new String[storeData.size()];
+            String[] SlangWordIndex = new String[2];
+            for (String element : storeData) {
+                SlangWordIndex = element.split("`");
+                slangPart[index] = SlangWordIndex[0];
+                defiPart[index] = SlangWordIndex[1];
+                index = index + 1;
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -274,13 +311,13 @@ public class MenuUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_resetButtonActionPerformed
 
+    //Đoán Slang Word dựa trên Definition
     private void GuessSlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuessSlangActionPerformed
         // TODO add your handling code here:
+        storeData();
         Random num = new Random();
-        File curFile = datafile;
         try {
-            List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of("resources/slang.txt")));
-            int size = fullData.size();
+            int size = storeData.size();
             int[] index = new int[4];
             for (int i = 0; i < 4; i++) {
                 index[i] = num.nextInt(size);
@@ -288,7 +325,7 @@ public class MenuUI extends javax.swing.JFrame {
 
             String[] resultChoice = new String[4];
             for (int i = 0; i < 4; i++) {
-                resultChoice[i] = fullData.get(index[i]);
+                resultChoice[i] = storeData.get(index[i]);
             }
 
             String[] slangPart = new String[4];
@@ -346,7 +383,7 @@ public class MenuUI extends javax.swing.JFrame {
                 if (options[3].equals(slangCorrectChoice)) {
                     JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Đúng!!!");
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "Wrong answer!!!");
+                    JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Sai!!!");
                 }
             }
 
@@ -355,10 +392,11 @@ public class MenuUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GuessSlangActionPerformed
 
+    //Tìm theo Slang Word
     private void searchBySlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBySlangActionPerformed
         // TODO add your handling code here:
+        storeData();
         String checkWord = searchItem.getText();
-        
         displayBoard.setText("");
         
         if(keylogger.isEmpty()){
@@ -371,25 +409,15 @@ public class MenuUI extends javax.swing.JFrame {
         }
 
         double calculateStartTime = System.currentTimeMillis();
-            try {
-                Scanner scanner = new Scanner(datafile);
-
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String[] SlangWordIndex = line.split("`");                  
+                for(int i = 0; i < slangPart.length; i++){              
                     
-                    //Lấy phần slang
-                    String slang = SlangWordIndex[0];
-                    if(slang.toLowerCase().contains(checkWord.toLowerCase())){
+                    //Lấy phần slang kiểm tra
+                    if(slangPart[i].toLowerCase().contains(checkWord.toLowerCase())){
+                        String line = storeData.get(i);
                         displayBoard.append(line + "\n");
                     }
                 }
-            } 
-            catch(Exception ex) {
-                System.out.println(ex);
-            }
-
-
+            
             double calculateEndTime   = System.currentTimeMillis();
             double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
             
@@ -399,11 +427,12 @@ public class MenuUI extends javax.swing.JFrame {
             searchItem.setText("");
     }//GEN-LAST:event_searchBySlangActionPerformed
 
+    //Tìm theo Definition
     private void searchByDefiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByDefiButtonActionPerformed
         // TODO add your handling code here
+        storeData();
         String checkWord = searchItem.getText();
         displayBoard.setText("");
-        
         
         if(keylogger.isEmpty()){
             keylogger.add(0, checkWord);
@@ -413,37 +442,27 @@ public class MenuUI extends javax.swing.JFrame {
                 keylogger.add(0, checkWord);
             }
         }
-          
-        double calculateStartTime = System.currentTimeMillis();
-            try {
-                Scanner scanner = new Scanner(datafile);
-                String [] SlangWordIndex = new String[2];
-                while (scanner.hasNextLine()) {
 
-                    String line = scanner.nextLine();
-                    SlangWordIndex = line.split("`");
+        double calculateStartTime = System.currentTimeMillis();
+                for(int i = 0; i < defiPart.length; i++){              
                     
-                    //Lấy phần định nghĩa
-                    String defi = SlangWordIndex[1];
-                    if(defi.toLowerCase().contains(checkWord.toLowerCase())){
+                    //Lấy phần slang kiểm tra
+                    if(defiPart[i].toLowerCase().contains(checkWord.toLowerCase())){
+                        String line = storeData.get(i);
                         displayBoard.append(line + "\n");
                     }
                 }
-            } 
-            catch(Exception ex) {
-                ex.printStackTrace();
-            }
-
-
+            
             double calculateEndTime   = System.currentTimeMillis();
             double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
             
             String timeResult = String.valueOf(calculateTotalTime);
             MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
-
+            
             searchItem.setText("");
     }//GEN-LAST:event_searchByDefiButtonActionPerformed
 
+    //Chuyển qua menu chỉnh sửa Slang
     private void processButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processButtonActionPerformed
         // TODO add your handling code here:
         new dictProcess().setVisible(true);
@@ -460,16 +479,16 @@ public class MenuUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_historyButtonActionPerformed
 
+    //Tạo random slang word
     private void randomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomButtonActionPerformed
         // TODO add your handling code here:
+        storeData();
         Random num = new Random();
-        File curFile = datafile;
         try {
-            List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of("resources/slang.txt")));
-            int size = fullData.size();
+            int size = storeData.size();
             int randomNum = num.nextInt(size);
             
-            String result = fullData.get(randomNum);
+            String result = storeData.get(randomNum);
             displayBoard.setText("");
             
             displayBoard.append(result + "\n");
@@ -479,13 +498,13 @@ public class MenuUI extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_randomButtonActionPerformed
 
+    //Đoán definition dựa theo Slang word
     private void GuessDefiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuessDefiActionPerformed
         // TODO add your handling code here:
+        storeData();
         Random num = new Random();
-        File curFile = datafile;
         try {
-            List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of("resources/slang.txt")));
-            int size = fullData.size();
+            int size = storeData.size();
             int[] index = new int[4];
             for(int i = 0; i < 4; i++){
                 index[i] = num.nextInt(size);
@@ -493,7 +512,7 @@ public class MenuUI extends javax.swing.JFrame {
             
             String[] resultChoice = new String[4];
             for(int i = 0; i < 4; i++){
-                resultChoice[i] = fullData.get(index[i]);
+                resultChoice[i] = storeData.get(index[i]);
             }
             
 
@@ -551,7 +570,7 @@ public class MenuUI extends javax.swing.JFrame {
                   if(options[3].equals(defiCorrectChoice)){
                       JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Đúng!!!");
                   }
-                  else JOptionPane.showMessageDialog(rootPane, "Wrong answer!!!");
+                  else JOptionPane.showMessageDialog(rootPane, "Câu Trả Lời Sai!!!");
             }
             
             } catch (Exception e) {

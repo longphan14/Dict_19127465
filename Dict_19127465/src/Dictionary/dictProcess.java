@@ -266,17 +266,17 @@ public class dictProcess extends javax.swing.JFrame {
                                 }
                             }
                             Files.write(Path.of(nameFile), fullData);
-                            break;
+                            continue;
                         }
                         if (result == 1) {
                             for (int i = 0; i < fullData.size(); i++) {
                                 if (fullData.get(i).equals(line)) {
                                     fullData.set(i, completeWord);
-                                    break;
+                                    continue;
                                 }
                             }
                             Files.write(Path.of(nameFile), fullData);
-                            break;
+                            continue;
                         }
                         if (result == -1) {
                             break;
@@ -326,7 +326,7 @@ public class dictProcess extends javax.swing.JFrame {
                         continue;
                     }
 
-                    if (!scanner.hasNextLine() && !slang.toLowerCase().equals(SlangWord.toLowerCase())) {
+                    if (!scanner.hasNextLine()) {
                         JOptionPane.showMessageDialog(this.getContentPane(), "Không tìm thấy Slang Word, Xin thử lại");
                     }
                 }
