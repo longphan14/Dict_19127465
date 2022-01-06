@@ -235,8 +235,7 @@ public class dictProcess extends javax.swing.JFrame {
 
         if (SlangWord.equals("") || DefinitionWord.equals("")) {
             dictProcess.messageBox("Slang Word hoặc Definition bị trống", "Thông Báo:");
-        } 
-        else {
+        } else {
             try {
                 Scanner scanner = new Scanner(file);
                 List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of(nameFile)));
@@ -265,23 +264,23 @@ public class dictProcess extends javax.swing.JFrame {
                                     break;
                                 }
                             }
-                            Files.write(Path.of(nameFile), fullData);
-                            continue;
+
                         }
                         if (result == 1) {
                             for (int i = 0; i < fullData.size(); i++) {
                                 if (fullData.get(i).equals(line)) {
                                     fullData.set(i, completeWord);
-                                    continue;
+                                    break;
                                 }
                             }
-                            Files.write(Path.of(nameFile), fullData);
-                            continue;
                         }
                         if (result == -1) {
                             break;
                         }
-
+                        
+                        Files.write(Path.of(nameFile), fullData);
+                        dispose();
+                        break;
                     }
 
                     if (!scanner.hasNextLine() && !slangInData.toLowerCase().equals(SlangWord.toLowerCase())) {
@@ -326,7 +325,7 @@ public class dictProcess extends javax.swing.JFrame {
                         continue;
                     }
 
-                    if (!scanner.hasNextLine()) {
+                    if (!scanner.hasNextLine() && !slang.toLowerCase().equals(SlangWord.toLowerCase())) {
                         JOptionPane.showMessageDialog(this.getContentPane(), "Không tìm thấy Slang Word, Xin thử lại");
                     }
                 }
