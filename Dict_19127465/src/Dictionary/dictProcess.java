@@ -304,35 +304,47 @@ public class dictProcess extends javax.swing.JFrame {
         if (SlangWord.equals("")) {
             dictProcess.messageBox("Slang Word bị trống", "Thông Báo:");
         } else {
+            String[] choices = new String[2];
+            choices[0] = "Xóa";
+            choices[1] = "Hủy";
             File file = new File(nameFile);
-            try {
-                Scanner scanner = new Scanner(file);
-                List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of(nameFile)));
-                boolean check = false;
-                while (scanner.hasNextLine()) {
+            int result = JOptionPane.showOptionDialog(this.getContentPane(), "Bạn có chắc chắn muốn xóa: ", "Thông Báo", 0,
+                    JOptionPane.INFORMATION_MESSAGE, null, choices, null);
 
-                    String line = scanner.nextLine();
-                    String[] slangWordIndex = line.split("`");
-                    String slang = slangWordIndex[0];
-                    if (slang.toLowerCase().equals(SlangWord.toLowerCase())) {
-                        check = true;
-                        for (int i = 0; i < fullData.size(); i++) {
-                            if (fullData.get(i).equals(line)) {
-                                fullData.remove(i);
+            if (result == 0) {
+                try {
+
+                    Scanner scanner = new Scanner(file);
+                    List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of(nameFile)));
+                    boolean check = false;
+                    while (scanner.hasNextLine()) {
+
+                        String line = scanner.nextLine();
+                        String[] slangWordIndex = line.split("`");
+                        String slang = slangWordIndex[0];
+                        if (slang.toLowerCase().equals(SlangWord.toLowerCase())) {
+                            check = true;
+                            for (int i = 0; i < fullData.size(); i++) {
+                                if (fullData.get(i).equals(line)) {
+                                    fullData.remove(i);
+                                }
                             }
+                            Files.write(Path.of(nameFile), fullData);
+                            continue;
                         }
-                        Files.write(Path.of(nameFile), fullData);
-                        continue;
-                    }
 
+                    }
+                    if (!check) {
+                        JOptionPane.showMessageDialog(this.getContentPane(), "Không tìm thấy Slang Word");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Delete Không Thành Công!!");
                 }
-                if (!check) {
-                    JOptionPane.showMessageDialog(this.getContentPane(), "Không tìm thấy Slang Word");
-                }
-            } catch (Exception e) {
-                System.out.println("Delete Không Thành Công!!");
+                dispose();
             }
-            dispose();
+            if (result == 1) {
+                deleteSlangWord.setText("");
+            }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
