@@ -402,41 +402,33 @@ public class MenuUI extends javax.swing.JFrame {
         storeData();
         String checkWord = searchItem.getText();
         displayBoard.setText("");
-
-        if (keylogger.isEmpty()) {
+        
+        if(keylogger.isEmpty()){
             keylogger.add(0, checkWord);
-        } else {
-            if (!checkAvailability(checkWord, keylogger)) {
+        }
+        else{
+            if(!checkAvailability(checkWord, keylogger)){
                 keylogger.add(0, checkWord);
             }
         }
 
-        for (int i = 0; i < slangPart.length; i++) {
 
-            //Lấy phần slang kiểm tra
-            if (slangPart[i].toLowerCase().contains(checkWord.toLowerCase())) {
-                String line = storeData.get(i);
-                displayBoard.append(line + "\n");
-            }
-        }
-
-        double calculateEndTime = System.currentTimeMillis();
-        double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
-
-        String timeResult = String.valueOf(calculateTotalTime);
-        MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
-
-        searchItem.setText("");
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("history.txt", false));
-            for (String key : keylogger) {
-                bw.write(key + System.lineSeparator());
-            }
-            bw.close();
-        } catch (IOException e) {
-            System.out.println("Không thể ghi file");
-        }
-
+                for(int i = 0; i < slangPart.length; i++){              
+                    
+                    //Lấy phần slang kiểm tra
+                    if(slangPart[i].toLowerCase().contains(checkWord.toLowerCase())){
+                        String line = storeData.get(i);
+                        displayBoard.append(line + "\n");
+                    }
+                }
+            
+            double calculateEndTime   = System.currentTimeMillis();
+            double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
+            
+            String timeResult = String.valueOf(calculateTotalTime);
+            MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
+            
+            searchItem.setText("");
     }//GEN-LAST:event_searchBySlangActionPerformed
 
     //Tìm theo Definition
@@ -446,40 +438,33 @@ public class MenuUI extends javax.swing.JFrame {
         storeData();
         String checkWord = searchItem.getText();
         displayBoard.setText("");
-
-        if (keylogger.isEmpty()) {
+        
+        if(keylogger.isEmpty()){
             keylogger.add(0, checkWord);
-        } else {
-            if (!checkAvailability(checkWord, keylogger)) {
+        }
+        else{
+            if(!checkAvailability(checkWord, keylogger)){
                 keylogger.add(0, checkWord);
             }
         }
 
-        for (int i = 0; i < defiPart.length; i++) {
 
-            //Lấy phần slang kiểm tra
-            if (defiPart[i].toLowerCase().contains(checkWord.toLowerCase())) {
-                String line = storeData.get(i);
-                displayBoard.append(line + "\n");
-            }
-        }
-
-        double calculateEndTime = System.currentTimeMillis();
-        double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
-
-        String timeResult = String.valueOf(calculateTotalTime);
-        MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
-
-        searchItem.setText("");
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("history.txt", false));
-            for (String key : keylogger) {
-                bw.write(key + System.lineSeparator());
-            }
-            bw.close();
-        } catch (IOException e) {
-            System.out.println("Không thể ghi file");
-        }
+                for(int i = 0; i < defiPart.length; i++){              
+                    
+                    //Lấy phần slang kiểm tra
+                    if(defiPart[i].toLowerCase().contains(checkWord.toLowerCase())){
+                        String line = storeData.get(i);
+                        displayBoard.append(line + "\n");
+                    }
+                }
+            
+            double calculateEndTime   = System.currentTimeMillis();
+            double calculateTotalTime = (calculateEndTime - calculateStartTime) / 1000;
+            
+            String timeResult = String.valueOf(calculateTotalTime);
+            MenuUI.messageBox(timeResult + " seconds", "Thời gian chạy:");
+            
+            searchItem.setText("");
     }//GEN-LAST:event_searchByDefiButtonActionPerformed
 
     //Chuyển qua menu chỉnh sửa Slang
