@@ -239,7 +239,7 @@ public class dictProcess extends javax.swing.JFrame {
             try {
                 Scanner scanner = new Scanner(file);
                 List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of(nameFile)));
-
+                boolean check = false;
                 while (scanner.hasNextLine()) {
 
                     String line = scanner.nextLine();
@@ -247,7 +247,7 @@ public class dictProcess extends javax.swing.JFrame {
                     String slangInData = slangWordIndex[0];
 
                     if (slangInData.toLowerCase().equals(SlangWord.toLowerCase())) {
-
+                        check = true;
                         String[] choices = new String[2];
 
                         //Chọn Duplicate Hay Override
@@ -277,17 +277,17 @@ public class dictProcess extends javax.swing.JFrame {
                         if (result == -1) {
                             break;
                         }
-                        
+
                         Files.write(Path.of(nameFile), fullData);
                         dispose();
                         break;
                     }
 
-                    if (!scanner.hasNextLine() && !slangInData.toLowerCase().equals(SlangWord.toLowerCase())) {
-                        fullData.add(completeWord);
-                        Files.write(Path.of(nameFile), fullData);
-                        dispose();
-                    }
+                }
+                if (!check) {
+                    fullData.add(completeWord);
+                    Files.write(Path.of(nameFile), fullData);
+                    dispose();
                 }
             } catch (Exception e) {
                 System.out.println("Add Không Thành Công!!");
@@ -301,23 +301,23 @@ public class dictProcess extends javax.swing.JFrame {
         String SlangWord = deleteSlangWord.getText();
         String nameFile = "resources/slang.txt";
 
-        if (SlangWord.equals("")){
+        if (SlangWord.equals("")) {
             dictProcess.messageBox("Slang Word bị trống", "Thông Báo:");
-        }
-        else{
+        } else {
             File file = new File(nameFile);
             try {
                 Scanner scanner = new Scanner(file);
                 List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of(nameFile)));
-                
+                boolean check = false;
                 while (scanner.hasNextLine()) {
-                    
+
                     String line = scanner.nextLine();
                     String[] slangWordIndex = line.split("`");
                     String slang = slangWordIndex[0];
                     if (slang.toLowerCase().equals(SlangWord.toLowerCase())) {
+                        check = true;
                         for (int i = 0; i < fullData.size(); i++) {
-                            if (fullData.get(i).equals(line)) {                              
+                            if (fullData.get(i).equals(line)) {
                                 fullData.remove(i);
                             }
                         }
@@ -325,9 +325,9 @@ public class dictProcess extends javax.swing.JFrame {
                         continue;
                     }
 
-                    if (!scanner.hasNextLine() && !slang.toLowerCase().equals(SlangWord.toLowerCase())) {
-                        JOptionPane.showMessageDialog(this.getContentPane(), "Không tìm thấy Slang Word, Xin thử lại");
-                    }
+                }
+                if (!check) {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Không tìm thấy Slang Word");
                 }
             } catch (Exception e) {
                 System.out.println("Delete Không Thành Công!!");
@@ -345,22 +345,21 @@ public class dictProcess extends javax.swing.JFrame {
 
         if (SlangWord.equals("") || DefinitionWord.equals("")) {
             dictProcess.messageBox("Slang Word hoặc Definition bị trống", "Thông Báo:");
-        } 
-        else {
+        } else {
             File file = new File(nameFile);
             try {
                 Scanner scanner = new Scanner(file);
                 List<String> fullData = new ArrayList<>(Files.readAllLines(Path.of(nameFile)));
-                
+                boolean check = false;
                 while (scanner.hasNextLine()) {
-                    
+
                     String line = scanner.nextLine();
                     String[] SlangWordIndex = line.split("`");
                     String slang = SlangWordIndex[0];
                     if (slang.toLowerCase().equals(SlangWord.toLowerCase())) {
-
+                        check = true;
                         String NewSlang = completeWord;
-                        
+
                         for (int i = 0; i < fullData.size(); i++) {
                             if (fullData.get(i).equals(line)) {
                                 fullData.set(i, NewSlang);
@@ -369,10 +368,10 @@ public class dictProcess extends javax.swing.JFrame {
                         Files.write(Path.of(nameFile), fullData);
                         continue;
                     }
-                    
-                    if (!scanner.hasNextLine() && !slang.toLowerCase().equals(SlangWord.toLowerCase())) {
-                        JOptionPane.showMessageDialog(this.getContentPane(), "Không tìm thấy Slang Word, Xin thử lại");
-                    }
+
+                }
+                if (!check) {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Không tìm thấy Slang Word, Xin thử lại");
                 }
             } catch (Exception e) {
                 System.out.println("Edit Không Thành Công!!");

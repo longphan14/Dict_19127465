@@ -3933,7 +3933,7 @@ LOWE`Don't bother| forget it
 LOWRIDER`Vehicle with modified suspension often hydraulically controlled
 LOYOL`Live Out Your Own Life
 LOZ`Legend of Zelda
-LP`Long Play
+LP`Long Phan
 LPG`Liquefied Petroleum Gas
 LPL`LOL
 LPT`Life Pro Tip
